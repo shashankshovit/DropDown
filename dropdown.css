@@ -1,10 +1,10 @@
-.selectBox-push-controller {
+.dropdown-push-controller {
 	border: 1px solid black;
 	cursor: pointer;
 	padding: 5px;
 }
 
-.selectBox-push-controller .selectBox-arrow.left {
+.dropdown-push-controller .dropdown-arrow.left {
     border-top: 5px solid transparent;
     border-right: 8px solid black;
     border-bottom: 5px solid transparent;
@@ -15,16 +15,16 @@
     transition: transform 0.5s;
 }
 
-.selectBox-push-controller .selectBox-arrow.down {
+.dropdown-push-controller .dropdown-arrow.down {
 	transform: rotateZ(-90deg);
 }
 
-.selectBox-push-controller .selectBox-label {
+.dropdown-push-controller .dropdown-label {
 	display: inline-flex;
 	color: #c3c3c3;
 }
 
-.selectBox-push-controller .selectBox-options {
+.dropdown-push-controller .dropdown-options {
 	max-height: 0;
 	-webkit-transition: max-height 0.25s;
 	-moz-transition: max-height 0.25s;
@@ -33,7 +33,7 @@
 	overflow: hidden;
 }
 
-.selectBox-push-controller .selectBox-options.open {
+.dropdown-push-controller .dropdown-options.open {
 	max-height: 500px;
 	-webkit-transition: max-height 0.25s;
 	-moz-transition: max-height 0.25s;
@@ -41,15 +41,15 @@
 	transition: max-height 0.25s;
 }
 
-.selectBox-push-controller .selectBox-options div:hover {
+.dropdown-push-controller .dropdown-options div:hover {
 	background-color: #d4e8ff;
 }
 
-.selectBox-push-controller .selectBox-options div.expelled {
+.dropdown-push-controller .dropdown-options div.expelled {
 	display: none;
 }
 
-.selectBox-push-controller .selectBox-options input {
+.dropdown-push-controller .dropdown-options input {
 	font-size: 11px;
 	width: 100px;
 }

@@ -1,4 +1,4 @@
-class SelectBox {
+class DropDown {
 	constructor(label, choices, options) {
 		this.label = label;
 		this.choices = choices;
@@ -19,7 +19,7 @@ class SelectBox {
 			isAcceptable = false;
 		} 
 		if(!isAcceptable) {
-			let warningMsg = `SelectBox Usage: SelectBox(label, choices, options)
+			let warningMsg = `DropDown Usage: DropDown(label, choices, options)
 					label: String
 					choices: Array[<String/Number>]/Object{key: <String/Number>, ...}
 					options: <Object>{
@@ -37,11 +37,11 @@ class SelectBox {
 	}
 
 	get optionsContainer() {
-		return this.html.querySelector('.selectBox-options');
+		return this.html.querySelector('.dropdown-options');
 	}
 
 	get arrowContainer() {
-		return this.html.querySelector('.selectBox-arrow');
+		return this.html.querySelector('.dropdown-arrow');
 	}
 
 	closeDropdown() {
@@ -58,18 +58,18 @@ class SelectBox {
 
 	createHTML() {
 		this.html = document.createElement('div');
-		this.html.classList.add('selectBox-push-controller');
+		this.html.classList.add('dropdown-push-controller');
 		if(this.options.className) { this.html.classList.add(this.options.className); }
 		this.html.dataset.isOpen = false;
 
 		let labelHolder = document.createElement('div');
-		labelHolder.className = 'selectBox-label';
+		labelHolder.className = 'dropdown-label';
 		
 		let label = document.createElement('div');
 		label.innerHTML = this.label;
 		labelHolder.appendChild(label);
 		let arrow = document.createElement('div');
-		arrow.className = 'selectBox-arrow left';
+		arrow.className = 'dropdown-arrow left';
 		labelHolder.appendChild(arrow);
 		
 		labelHolder.addEventListener('click', this.pushButtonClicked.bind(this));
@@ -91,12 +91,12 @@ class SelectBox {
 
 	createOptions() {
 		let optionsContainer = document.createElement('div');
-		optionsContainer.className = 'selectBox-options';
+		optionsContainer.className = 'dropdown-options';
 
 		let searchInput = document.createElement('input');
 		searchInput.type = 'text';
 		searchInput.placeholder = 'Filter';
-		searchInput.classList.add('selectBox-search');
+		searchInput.classList.add('dropdown-search');
 		searchInput.addEventListener('keyup', this.filterList.bind(this));
 		optionsContainer.appendChild(searchInput);
 
@@ -127,7 +127,7 @@ class SelectBox {
 	}
 
 	clearFilter() {
-		this.html.querySelector('.selectBox-search').value='';
+		this.html.querySelector('.dropdown-search').value='';
 		let options = Array.from(this.optionsContainer.children);
 		options.forEach(option => option.classList.remove('expelled'));
 	}
