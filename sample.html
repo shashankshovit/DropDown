@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<script type="text/javascript" src="SelectBox.js"></script>
+		<link rel="stylesheet" type="text/css" href="selectBox.css">
+	</head>
+	<body>
+		<div class="container">
+			Select Box Sample
+		</div>
+		<script type="text/javascript">
+			// Example 1
+			let selectBox1 = new SelectBox('Select a name', {smita: 1, shashank: 2, shanky: 3}, {className: 'myclass'});
+			document.querySelector('.container').appendChild(selectBox1.render());
+
+			// Example 2
+			let selectBox2 = new SelectBox('Select another name', ['shashank', 'shanky', 'smita', 'hello', 'world', 'andromeda']);
+			document.querySelector('.container').appendChild(selectBox2.render());
+		</script>
+	</body>
+</html>
