@@ -1,4 +1,9 @@
-class DropDown {
+/**
+ * Author: Shashank Shovit (shashankshovit@gmail.com)
+ * 
+ */
+
+ class DropDown {
 	constructor(label, choices, options) {
 		this.label = label;
 		this.choices = choices;
