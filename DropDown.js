@@ -7,9 +7,16 @@
 	constructor(label, choices, options) {
 		this.label = label;
 		this.choices = choices;
-		this.options = Object.assign({}, options);
+		let defaultOptions = {
+			alphabetical: true,
+			callback: null,
+			className: null,
+			filter: true,
+		};
+		this.options = Object.assign(defaultOptions, options);
 		this.validateAttributes();
 		this.html = '';
+		document.addEventListener('click', this.captureClickCloseDropdown.bind(this));
 	}
 
 	validateAttributes() {
@@ -28,7 +35,10 @@
 					label: String
 					choices: Array[<String/Number>]/Object{key: <String/Number>, ...}
 					options: <Object>{
-						className: String
+						alphabetical: Boolean,
+						className: String,
+						filter: Boolean,
+						callback: function
 					}
 				`;
 			throw warningMsg;
@@ -49,6 +59,10 @@
 		return this.html.querySelector('.dropdown-arrow');
 	}
 
+	get isExpanded() {
+		return this.html.dataset.isOpen == 'true';
+	}
+
 	closeDropdown() {
 		this.html.dataset.isOpen = false;
 		this.arrowContainer.classList.remove('down');
@@ -59,6 +73,10 @@
 		this.html.dataset.isOpen = true;
 		this.arrowContainer.classList.add('down');
 		this.optionsContainer.classList.add('open');
+	}
+
+	captureClickCloseDropdown(e) {
+		(this.isExpanded) && this.closeDropdown();
 	}
 
 	createHTML() {
@@ -86,26 +104,22 @@
 	}
 
 	pushButtonClicked(e) {
-		let isOpen = this.html.dataset.isOpen == 'true';
-		if(isOpen) {
+		if(this.isExpanded) {
 			this.closeDropdown();
 		} else {
 			this.openDropdown();
 		}
+		e.preventDefault();
+		e.stopPropagation();
 	}
 
 	createOptions() {
 		let optionsContainer = document.createElement('div');
 		optionsContainer.className = 'dropdown-options';
 
-		let searchInput = document.createElement('input');
-		searchInput.type = 'text';
-		searchInput.placeholder = 'Filter';
-		searchInput.classList.add('dropdown-search');
-		searchInput.addEventListener('keyup', this.filterList.bind(this));
-		optionsContainer.appendChild(searchInput);
+		this.options.filter && optionsContainer.appendChild(this.createFilter());
 
-		let sortedKeys = Object.keys(this.choices).sort();
+		let sortedKeys = this.options.alphabetical ? Object.keys(this.choices).sort() : Object.keys(this.choices);
 		sortedKeys.forEach(key => {
 			let optionElement = document.createElement('div');
 			optionElement.innerHTML = key;
@@ -114,6 +128,15 @@
 			optionsContainer.appendChild(optionElement);
 		});
 		return optionsContainer;
+	}
+
+	createFilter() {
+		let searchInput = document.createElement('input');
+		searchInput.type = 'text';
+		searchInput.placeholder = 'Filter';
+		searchInput.classList.add('dropdown-search');
+		searchInput.addEventListener('keyup', this.filterList.bind(this));
+		return searchInput;
 	}
 
 	filterList(e) {
@@ -138,10 +161,12 @@
 	}
 
 	optionSelected(e) {
-		this.html.firstElementChild.firstElementChild.innerText = e.target.innerText;
-		this.html.dataset.value = e.target.dataset.value;
-		this.clearFilter();
+		// this.html.firstElementChild.firstElementChild.innerText = e.target.innerText;
+		let selectedValue = e.target.dataset.value;
+		this.html.dataset.value = selectedValue;
+		this.options.filter && this.clearFilter();
 		this.closeDropdown();
+		this.options.callback && this.options.callback(selectedValue);
 	}
 
 	render() {
