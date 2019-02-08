@@ -8,6 +8,7 @@ This is a custom dropdown where you can provide your own CSS to dropdown as you 
 `let myDropdown = new DropDown("My Select", <list of options>, <configurable options>);`
 - Use the render method to attach it to your HTML element
 `myHTMLElement.appendChild(myDropdown.render());`
+- This package works only if both the JavaScript and CSS files are together. Put/Link both `DropDown.js` and `dropdown.css` in your HTML file.
 
 ## Dropdown list options
 DropDown accepts two types of lists:
@@ -23,6 +24,21 @@ Configurable options can be passed to format the dropdown:
   - This callback method executes with attribue of `selected option value`
   - Refer to examples to get further insight
 - **updateLabel**: On select of a list option, whether to update the display label of dropdown
+## Fetch selected option
+Get your DropDown HTML element by referring through the class you provided, or by using the ID DropDown uses.
+`value` in `data` attribute will give you the selected value.
+```
+new DropDown('Display Label', ['option 1', 'option 2', ...], {className: 'myClass'});
+let myDropDown = document.querSelector('.myClass'); // OR
+let myDropDown = document.getElementById('DropDown');
+myDropDown.dataset.value // gives the selected value
+```
+
+## Keep in mind
+1. DropDown uses the ID `DropDown`
+2. Use the render method to get the actual HTML.
+3. You can pass either `Array` or `Object` with key value pairs
+4. Selecting an option modifies the DropDown.dataset.value as well as calls the callback function (if provided)
 
 # Examples
 1. Basic example passing list options as an array
@@ -49,7 +65,7 @@ selectContainer.appendChild(myDropdown.render());
 3. Using configuration options
 ```
 // your HTML container where you wish to place this dropdown
-let selectContainer = document.getElementById('selectContainer');
+let selectContainer = document.querySelector('#yourSelectContainer');
 let myListOptions = ['Bangalore', 'Mumbai', 'Paris', 'London', 'Shanghai', 'Venice'];
 let myCallBackFunction = function(selectedValue) {/* Do something with this selected value */};
 let config = {
