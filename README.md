@@ -22,6 +22,7 @@ Configurable options can be passed to format the dropdown:
   - Bind your callback function with your object of need for your object context
   - This callback method executes with attribue of `selected option value`
   - Refer to examples to get further insight
+- **updateLabel**: On select of a list option, whether to update the display label of dropdown
 
 # Examples
 1. Basic example passing list options as an array
@@ -55,7 +56,8 @@ let config = {
     'className': 'myClass',
     'alphabetical': false,
     'filter': true,
-    'callback': myCallBackFunction.bind(this)
+    'callback': myCallBackFunction.bind(this),
+    'updateLabel': true
 };
 let myDropdown = new DropDown('List of cities', myListOptions, config);
 selectContainer.appendChild(myDropdown.render());
