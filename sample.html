@@ -2,19 +2,70 @@
 	<head>
 		<script type="text/javascript" src="DropDown.js"></script>
 		<link rel="stylesheet" type="text/css" href="dropdown.css">
+		<style type="text/css">
+			.myClass {
+				background-color: #eeee88;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="container">
-			Custom Dropdown sample file
+			<h2>Custom Dropdown sample file</h2>
+			<h3>Example 1: Dropdown with options as array</h3>
+			<div id="container1"></div>
+			<h3>Example 2: Dropdown with options as key values</h3>
+			<div class="container2"></div>
+			<h3>Example 3: Menu with custom class name and callback function</h3>
+			<div class="container3"></div>
+			<p>This DropDown could be used either as a html select dropdown or as a file menu.</p>
 		</div>
 		<script type="text/javascript">
+			let selectContainer;
+			let myListOptions;
 			// Example 1
-			let selectBox1 = new DropDown('Select a name', {smita: 1, shashank: 2, shanky: 3}, {className: 'myclass'});
-			document.querySelector('.container').appendChild(selectBox1.render());
+			selectContainer = document.getElementById('container1');
+			myListOptions = ['Venice', 'Paris', 'Bangalore', 'Mumbai', 'London', 'Shanghai'];
+			let myDropdown1 = new DropDown('List of cities', myListOptions);
+			selectContainer.appendChild(myDropdown1.render());
 
 			// Example 2
-			let selectBox2 = new DropDown('Select another name', ['shashank', 'shanky', 'smita', 'hello', 'world', 'andromeda']);
-			document.querySelector('.container').appendChild(selectBox2.render());
+			selectContainer = document.getElementsByClassName('container2')[0];
+			myListOptions = {
+				'Venice': 'venice',
+				'Paris': 'paris',
+		        'Bengaluru': 'Bangalore',
+		        'Mumbai': 'Bombay',
+		        'New Delhi': 'Delhi',
+		        'London': 'london',
+		        'Shanghai': 'Shanghai',
+		        'New York': 'new_york',
+			};
+			let myDropdown2 = new DropDown('List of cities', myListOptions);
+			selectContainer.appendChild(myDropdown2.render());
+
+			// Example 3
+			selectContainer = document.querySelector('.container3');
+			let myCallBackFunction = function(selectedValue) {
+				let msg = `Option ${selectedValue} is selected.`;
+				console.log(msg);
+				alert(msg);
+			};
+			myListOptions = {
+					'Save': 'save',
+					'Save As': 'save_as',
+					'Print': 'print',
+					'Open With': 'open_with'
+			};
+			let config = {
+			    'class': 'myClass',
+			    'id': 'myID',
+			    'alphabetical': false,
+			    'filter': false,
+			    'callback': myCallBackFunction.bind(this),
+			    'updateLabel': false
+			};
+			let myDropdown3 = new DropDown('Menu Options', myListOptions, config);
+			selectContainer.appendChild(myDropdown3.render());
 		</script>
 	</body>
 </html>

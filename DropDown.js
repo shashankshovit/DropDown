@@ -10,9 +10,10 @@
 		let defaultOptions = {
 			alphabetical: true,
 			callback: null,
-			className: null,
+			class: null,
 			filter: true,
-                        updateLabel: false,
+			id: 'DropDown',
+            updateLabel: true,
 		};
 		this.options = Object.assign(defaultOptions, options);
 		this.validateAttributes();
@@ -37,10 +38,11 @@
 					choices: Array[<String/Number>]/Object{key: <String/Number>, ...}
 					options: <Object>{
 						alphabetical: Boolean,
-						className: String,
+						class: String,
+						id: String,
 						filter: Boolean,
 						callback: function,
-                                                updateLabel: Boolean
+                        updateLabel: Boolean
 					}
 				`;
 			throw warningMsg;
@@ -82,10 +84,10 @@
 	}
 
 	createHTML() {
-		this.html = document.createElement('div');
-                this.html.id = 'DropDown';
+		this.html = document.createElement('table');
+        this.html.id = this.options.id;
 		this.html.classList.add('dropdown-push-controller');
-		if(this.options.className) { this.html.classList.add(this.options.className); }
+		if(this.options.class) { this.html.classList.add(this.options.class); }
 		this.html.dataset.isOpen = false;
 
 		let labelHolder = document.createElement('div');
@@ -119,9 +121,7 @@
 	createOptions() {
 		let optionsContainer = document.createElement('div');
 		optionsContainer.className = 'dropdown-options';
-
 		this.options.filter && optionsContainer.appendChild(this.createFilter());
-
 		let sortedKeys = this.options.alphabetical ? Object.keys(this.choices).sort() : Object.keys(this.choices);
 		sortedKeys.forEach(key => {
 			let optionElement = document.createElement('div');
@@ -139,11 +139,15 @@
 		searchInput.placeholder = 'Filter';
 		searchInput.classList.add('dropdown-search');
 		searchInput.addEventListener('keyup', this.filterList.bind(this));
+		searchInput.addEventListener('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+		});
 		return searchInput;
 	}
 
 	filterList(e) {
-		let regEx = new RegExp(`.*${e.target.value.split('').join('.*')}.*`);
+		let regEx = new RegExp(`.*${e.target.value.split('').join('.*')}.*`, 'i');
 		let options = Array.from(this.optionsContainer.children);
 		if(e.target.value.trim() == '') {
 			this.clearFilter();
@@ -164,7 +168,7 @@
 	}
 
 	optionSelected(e) {
-                this.options.updateLabel && (this.html.firstElementChild.firstElementChild.innerText = e.target.innerText);
+        this.options.updateLabel && (this.html.firstElementChild.firstElementChild.innerText = e.target.innerText);
 		let selectedValue = e.target.dataset.value;
 		this.html.dataset.value = selectedValue;
 		this.options.filter && this.clearFilter();
