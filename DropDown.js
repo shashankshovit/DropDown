@@ -12,6 +12,7 @@
 			callback: null,
 			className: null,
 			filter: true,
+                        updateLabel: false,
 		};
 		this.options = Object.assign(defaultOptions, options);
 		this.validateAttributes();
@@ -38,7 +39,8 @@
 						alphabetical: Boolean,
 						className: String,
 						filter: Boolean,
-						callback: function
+						callback: function,
+                                                updateLabel: Boolean
 					}
 				`;
 			throw warningMsg;
@@ -161,7 +163,7 @@
 	}
 
 	optionSelected(e) {
-		// this.html.firstElementChild.firstElementChild.innerText = e.target.innerText;
+                this.options.updateLabel && (this.html.firstElementChild.firstElementChild.innerText = e.target.innerText);
 		let selectedValue = e.target.dataset.value;
 		this.html.dataset.value = selectedValue;
 		this.options.filter && this.clearFilter();
