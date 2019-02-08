@@ -1,6 +1,5 @@
 .dropdown-push-controller {
 	border: 1px solid black;
-	cursor: pointer;
 	padding: 5px;
 }
 
@@ -22,6 +21,7 @@
 .dropdown-push-controller .dropdown-label {
 	display: flex;
 	color: #c3c3c3;
+        cursor: pointer;
 }
 
 .dropdown-push-controller .dropdown-label div {
