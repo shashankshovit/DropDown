@@ -83,6 +83,7 @@
 
 	createHTML() {
 		this.html = document.createElement('div');
+                this.html.id = 'DropDown';
 		this.html.classList.add('dropdown-push-controller');
 		if(this.options.className) { this.html.classList.add(this.options.className); }
 		this.html.dataset.isOpen = false;
