@@ -5,6 +5,7 @@
 		<style type="text/css">
 			.myClass {
 				background-color: #eeee88;
+				width: 200px;
 			}
 		</style>
 	</head>
@@ -47,7 +48,7 @@
 			selectContainer = document.querySelector('.container3');
 			let myCallBackFunction = function(selectedValue) {
 				let msg = `Option ${selectedValue} is selected.`;
-				console.log(msg);
+				console.log(msg, 'context => ', this);
 				alert(msg);
 			};
 			myListOptions = {
@@ -62,7 +63,8 @@
 			    'alphabetical': false,
 			    'filter': false,
 			    'callback': myCallBackFunction.bind(this),
-			    'updateLabel': false
+			    'updateLabel': false,
+				arrow: false,
 			};
 			let myDropdown3 = new DropDown('Menu Options', myListOptions, config);
 			selectContainer.appendChild(myDropdown3.render());

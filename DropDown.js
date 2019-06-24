@@ -1,6 +1,12 @@
 /**
  * Author: Shashank Shovit (shashankshovit@gmail.com)
- * 
+ * Github: https://github.com/shashankshovit/
+ *
+ * This utility helps to create dropdown is just two steps.
+ *
+ * Usage:
+ * let dropdown = new DropDown('Cities', ['Venice', 'Paris', 'Bangalore']);
+ * document.querySelector('.container1').appendChild(dropdown.render());
  */
 
  class DropDown {
@@ -9,11 +15,12 @@
 		this.choices = choices;
 		let defaultOptions = {
 			alphabetical: true,
+			arrow: true,
 			callback: null,
 			class: null,
 			filter: true,
 			id: 'DropDown',
-            updateLabel: true,
+			updateLabel: true,
 		};
 		this.options = Object.assign(defaultOptions, options);
 		this.validateAttributes();
@@ -64,17 +71,15 @@
 	}
 
 	get isExpanded() {
-		return this.html.dataset.isOpen == 'true';
+		return this.optionsContainer.classList.contains('open');
 	}
 
 	closeDropdown() {
-		this.html.dataset.isOpen = false;
 		this.arrowContainer.classList.remove('down');
 		this.optionsContainer.classList.remove('open');
 	}
 
 	openDropdown() {
-		this.html.dataset.isOpen = true;
 		this.arrowContainer.classList.add('down');
 		this.optionsContainer.classList.add('open');
 	}
@@ -85,10 +90,9 @@
 
 	createHTML() {
 		this.html = document.createElement('table');
-        this.html.id = this.options.id;
+		this.html.id = this.options.id;
 		this.html.classList.add('dropdown-push-controller');
 		if(this.options.class) { this.html.classList.add(this.options.class); }
-		this.html.dataset.isOpen = false;
 
 		let labelHolder = document.createElement('div');
 		labelHolder.className = 'dropdown-label';
@@ -96,11 +100,13 @@
 		let label = document.createElement('div');
 		label.innerHTML = this.label;
 		labelHolder.appendChild(label);
+		
 		let arrow = document.createElement('div');
 		arrow.className = 'dropdown-arrow left';
+		!this.options.arrow && (arrow.classList.add('hidden'));
 		labelHolder.appendChild(arrow);
 		
-		labelHolder.addEventListener('click', this.pushButtonClicked.bind(this));
+		this.html.addEventListener('click', this.pushButtonClicked.bind(this));
 		this.html.appendChild(labelHolder);
 
 		let choices = this.createOptions();
@@ -114,7 +120,6 @@
 		} else {
 			this.openDropdown();
 		}
-		e.preventDefault();
 		e.stopPropagation();
 	}
 
@@ -140,7 +145,6 @@
 		searchInput.classList.add('dropdown-search');
 		searchInput.addEventListener('keyup', this.filterList.bind(this));
 		searchInput.addEventListener('click', function(e) {
-			e.preventDefault();
 			e.stopPropagation();
 		});
 		return searchInput;
@@ -168,16 +172,14 @@
 	}
 
 	optionSelected(e) {
-        this.options.updateLabel && (this.html.firstElementChild.firstElementChild.innerText = e.target.innerText);
+		this.options.updateLabel && (this.html.firstElementChild.firstElementChild.innerText = e.target.innerText);
 		let selectedValue = e.target.dataset.value;
 		this.html.dataset.value = selectedValue;
 		this.options.filter && this.clearFilter();
-		this.closeDropdown();
 		this.options.callback && this.options.callback(selectedValue);
 	}
 
 	render() {
-		let html = this.createHTML();
-		return html;
+		return this.createHTML();
 	}
 }

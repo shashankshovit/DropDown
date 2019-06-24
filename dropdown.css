@@ -1,11 +1,12 @@
 .dropdown-push-controller {
-	border: 1px solid black;
+	border: 1px solid #cccccc;
+	cursor: pointer;
 	padding: 5px;
 }
 
 .dropdown-push-controller .dropdown-arrow.left {
     border-top: 5px solid transparent;
-    border-right: 8px solid black;
+    border-right: 8px solid #aaaaaa;
     border-bottom: 5px solid transparent;
 	height: 0;
     width: 0;
@@ -18,9 +19,13 @@
 	transform: rotateZ(-90deg);
 }
 
+.dropdown-push-controller .dropdown-arrow.hidden {
+	display: none;
+}
+
 .dropdown-push-controller .dropdown-label {
 	display: flex;
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .dropdown-push-controller .dropdown-label div {
@@ -29,6 +34,7 @@
 
 .dropdown-push-controller .dropdown-options {
 	background-color: white;
+	left: 8px;
 	max-height: 0;
 	-webkit-transition: max-height 0.25s;
 	-moz-transition: max-height 0.25s;
